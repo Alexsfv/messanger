@@ -1,0 +1,64 @@
+/* Палитра и шрифт взяты из светлой и тёмной тем web.whatsapp.com */
+:root {
+  color-scheme: light dark;
+
+  --font-family: Roboto, 'Helvetica Neue', Helvetica, 'Segoe UI', system-ui, sans-serif;
+
+  --color-accent: #1daa61;
+  --color-accent-hover: #1b8755;
+  --color-accent-bright: #25d366;
+  --color-surface: #fcf5eb;
+  --color-background: #fff;
+  --color-panel: #f0f2f5;
+  --color-input: #fff;
+  --color-input-secondary: #f0f2f5;
+  --color-hover: #f5f6f6;
+  --color-active: #f0f2f5;
+  --color-text: #111b21;
+  --color-text-secondary: #667781;
+  --color-text-on-accent: #fff;
+  --color-icon: #54656f;
+  --color-stroke: #e9edef;
+  --color-negative: #ea0038;
+  --color-avatar: #dfe5e7;
+  --color-avatar-icon: #fff;
+
+  --color-chat-background: #efeae2;
+  --color-bubble-incoming: #fff;
+  --color-bubble-outgoing: #d9fdd3;
+  --color-system-bubble: #fff;
+  --shadow-bubble: 0 1px 0.5px rgb(11 20 26 / 0.13);
+
+  --radius-s: 8px;
+  --radius-l: 24px;
+  --radius-pill: 999px;
+  --transition: 0.15s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-accent: #00a884;
+    --color-accent-hover: #06cf9c;
+    --color-surface: #111b21;
+    --color-background: #111b21;
+    --color-panel: #202c33;
+    --color-input: #2a3942;
+    --color-input-secondary: #202c33;
+    --color-hover: #202c33;
+    --color-active: #2a3942;
+    --color-text: #e9edef;
+    --color-text-secondary: #8696a0;
+    --color-text-on-accent: #111b21;
+    --color-icon: #aebac1;
+    --color-stroke: #222d34;
+    --color-negative: #f15c6d;
+    --color-avatar: #6a7175;
+    --color-avatar-icon: #cfd4d6;
+
+    --color-chat-background: #0b141a;
+    --color-bubble-incoming: #202c33;
+    --color-bubble-outgoing: #005c4b;
+    --color-system-bubble: #182229;
+    --shadow-bubble: 0 1px 0.5px rgb(11 20 26 / 0.13);
+  }
+}

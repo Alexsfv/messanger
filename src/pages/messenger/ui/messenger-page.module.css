@@ -1,0 +1,31 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(320px, 30%) 1fr;
+  height: 100dvh;
+}
+
+.sidebar,
+.main {
+  min-width: 0;
+  min-height: 0;
+}
+
+.sidebar {
+  border-right: 1px solid var(--color-stroke);
+}
+
+/* На узком экране показываем либо список чатов, либо открытый чат */
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .page[data-chat-open='true'] .sidebar,
+  .page[data-chat-open='false'] .main {
+    display: none;
+  }
+
+  .sidebar {
+    border-right: none;
+  }
+}

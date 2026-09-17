@@ -1,0 +1,31 @@
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-chat-background);
+}
+
+.placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border-bottom: 6px solid var(--color-accent-bright);
+  background-color: var(--color-panel);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.placeholderTitle {
+  margin: 0 0 12px;
+  color: var(--color-text);
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.placeholderText {
+  margin: 0;
+  font-size: 14px;
+}

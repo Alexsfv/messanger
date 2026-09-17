@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  flex-shrink: 0;
+  gap: 15px;
+  align-items: center;
+  height: 60px;
+  padding: 0 16px;
+  background-color: var(--color-panel);
+}
+
+.back {
+  display: none;
+  margin-right: -8px;
+}
+
+.info {
+  min-width: 0;
+}
+
+.title,
+.subtitle {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding-left: 8px;
+  }
+
+  .back {
+    display: inline-flex;
+  }
+}

@@ -1,0 +1,40 @@
+.composer {
+  padding: 5px 16px;
+  background-color: var(--color-panel);
+}
+
+.error {
+  margin: 4px 0 6px;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  max-height: 140px;
+  margin: 5px 0;
+  padding: 9px 12px;
+  border: none;
+  border-radius: var(--radius-s);
+  outline: none;
+  background-color: var(--color-input);
+  color: var(--color-text);
+  font: inherit;
+  line-height: 20px;
+  resize: none;
+  field-sizing: content;
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.send {
+  margin-bottom: 5px;
+}

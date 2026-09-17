@@ -1,0 +1,27 @@
+.page {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 16px;
+  background-color: var(--color-surface);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  border: 1px solid var(--color-stroke);
+  border-radius: var(--radius-l);
+  background-color: var(--color-background);
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.description {
+  margin: 0 0 28px;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,26 @@
+.avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: var(--color-avatar);
+  color: var(--color-avatar-icon);
+}
+
+.avatar svg {
+  width: 80%;
+  height: 80%;
+  margin-bottom: -8%;
+}
+
+.s {
+  width: 40px;
+  height: 40px;
+}
+
+.m {
+  width: 49px;
+  height: 49px;
+}

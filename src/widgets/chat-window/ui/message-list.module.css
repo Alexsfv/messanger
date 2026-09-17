@@ -1,0 +1,25 @@
+.scroller {
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 6%;
+}
+
+.empty {
+  align-self: center;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-s);
+  background-color: var(--color-system-bubble);
+  box-shadow: var(--shadow-bubble);
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+}
