@@ -3,7 +3,7 @@ import { logout } from '../model/logout'
 
 export function LogoutButton() {
   return (
-    <Button variant="icon" aria-label="Выйти" title="Выйти" onClick={logout}>
+    <Button variant="icon" aria-label="Выйти" title="Выйти" onClick={() => logout()}>
       <LogoutIcon />
     </Button>
   )

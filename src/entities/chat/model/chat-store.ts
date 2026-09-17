@@ -1,16 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { STORAGE_KEYS } from '@/shared/config'
-import type { Chat, ChatDraft } from './types'
-
-interface ChatState {
-  chats: Record<string, Chat>
-  activeChatId: string | null
-  /** Создаёт чат или обновляет имя существующего, сохраняя дату создания */
-  upsertChat: (chat: ChatDraft) => void
-  selectChat: (chatId: string | null) => void
-  reset: () => void
-}
+import type { ChatState } from './types'
 
 export const useChatStore = create<ChatState>()(
   persist(
@@ -18,17 +9,16 @@ export const useChatStore = create<ChatState>()(
       chats: {},
       activeChatId: null,
       upsertChat: ({ id, name }) =>
-        set(({ chats }) => {
-          const existing = chats[id]
+        set((state) => {
+          const existing = state.chats[id]
+
+          // Без изменений возвращаем прежнее состояние, чтобы не перерисовывать подписчиков
+          if (existing && (name === undefined || name === existing.name)) return state
 
           return {
             chats: {
-              ...chats,
-              [id]: {
-                id,
-                name: name ?? existing?.name,
-                createdAt: existing?.createdAt ?? Date.now(),
-              },
+              ...state.chats,
+              [id]: { id, name, createdAt: existing?.createdAt ?? Date.now() },
             },
           }
         }),

@@ -5,8 +5,9 @@ import { useCredentials } from '@/entities/session'
 import type { WebhookBody } from '@/shared/api'
 import { mapIncomingMessage } from '../lib/map-incoming-message'
 import { pollNotifications } from '../lib/poll-notifications'
+import type { NotificationHandlers } from './types'
 
-function handleNotification(body: WebhookBody) {
+function onNotification(body: WebhookBody) {
   const incoming = mapIncomingMessage(body)
   if (!incoming) return
 
@@ -15,13 +16,13 @@ function handleNotification(body: WebhookBody) {
 }
 
 /** Получает входящие сообщения через HTTP API, пока смонтирован вызывающий компонент */
-export function useReceiveMessages() {
+export function useReceiveMessages(onUnauthorized: NotificationHandlers['onUnauthorized']) {
   const credentials = useCredentials()
 
   useEffect(() => {
     const controller = new AbortController()
-    void pollNotifications(credentials, handleNotification, controller.signal)
+    void pollNotifications(credentials, { onNotification, onUnauthorized }, controller.signal)
 
     return () => controller.abort()
-  }, [credentials])
+  }, [credentials, onUnauthorized])
 }

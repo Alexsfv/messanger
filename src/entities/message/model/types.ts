@@ -6,3 +6,10 @@ export interface Message {
   timestamp: number
   direction: 'incoming' | 'outgoing'
 }
+
+export interface MessageState {
+  messagesByChatId: Record<string, Message[]>
+  /** Идемпотентно: повторно полученное уведомление не создаёт дубль */
+  addMessage: (message: Message) => void
+  reset: () => void
+}

@@ -1,9 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { deleteNotification, receiveNotification, type ReceivedNotification } from '@/shared/api'
+import {
+  deleteNotification,
+  GreenApiError,
+  receiveNotification,
+  type ReceivedNotification,
+} from '@/shared/api'
 import { POLLING_RETRY_DELAY_MS } from '../config'
 import { pollNotifications } from './poll-notifications'
 
-vi.mock('@/shared/api', () => ({
+vi.mock('@/shared/api', async (importOriginal) => ({
+  ...(await importOriginal()),
   receiveNotification: vi.fn(),
   deleteNotification: vi.fn(),
 }))
@@ -19,6 +25,8 @@ const stopPolling = (controller: AbortController) => async () => {
   controller.abort()
   return null
 }
+
+const createHandlers = () => ({ onNotification: vi.fn(), onUnauthorized: vi.fn() })
 
 describe('pollNotifications', () => {
   beforeEach(() => {
@@ -42,7 +50,11 @@ describe('pollNotifications', () => {
       return { result: true }
     })
 
-    await pollNotifications(credentials, (body) => calls.push(body.typeWebhook), controller.signal)
+    await pollNotifications(
+      credentials,
+      { ...createHandlers(), onNotification: (body) => calls.push(body.typeWebhook) },
+      controller.signal,
+    )
 
     expect(calls).toEqual(['stateInstanceChanged', 'delete'])
     expect(deleteNotification).toHaveBeenCalledWith(
@@ -52,15 +64,37 @@ describe('pollNotifications', () => {
     )
   })
 
+  it('удаляет уведомление, даже если обработчик упал, чтобы не блокировать очередь', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    const controller = new AbortController()
+    const handlers = createHandlers()
+
+    handlers.onNotification.mockImplementation(() => {
+      throw new Error('Unexpected notification')
+    })
+    vi.mocked(receiveNotification)
+      .mockResolvedValueOnce(notification)
+      .mockImplementationOnce(stopPolling(controller))
+    vi.mocked(deleteNotification).mockResolvedValue({ result: true })
+
+    await pollNotifications(credentials, handlers, controller.signal)
+
+    expect(deleteNotification).toHaveBeenCalledWith(
+      credentials,
+      notification.receiptId,
+      controller.signal,
+    )
+  })
+
   it('ничего не обрабатывает, если очередь пуста', async () => {
     const controller = new AbortController()
-    const onNotification = vi.fn()
+    const handlers = createHandlers()
 
     vi.mocked(receiveNotification).mockImplementationOnce(stopPolling(controller))
 
-    await pollNotifications(credentials, onNotification, controller.signal)
+    await pollNotifications(credentials, handlers, controller.signal)
 
-    expect(onNotification).not.toHaveBeenCalled()
+    expect(handlers.onNotification).not.toHaveBeenCalled()
     expect(deleteNotification).not.toHaveBeenCalled()
   })
 
@@ -73,7 +107,7 @@ describe('pollNotifications', () => {
       .mockRejectedValueOnce(new Error('Network error'))
       .mockImplementationOnce(stopPolling(controller))
 
-    const polling = pollNotifications(credentials, vi.fn(), controller.signal)
+    const polling = pollNotifications(credentials, createHandlers(), controller.signal)
 
     await vi.advanceTimersByTimeAsync(POLLING_RETRY_DELAY_MS - 1)
     expect(receiveNotification).toHaveBeenCalledTimes(1)
@@ -81,5 +115,16 @@ describe('pollNotifications', () => {
     await vi.advanceTimersByTimeAsync(1)
     await polling
     expect(receiveNotification).toHaveBeenCalledTimes(2)
+  })
+
+  it('при ответе 401 сообщает о недействительном токене и прекращает опрос', async () => {
+    const handlers = createHandlers()
+
+    vi.mocked(receiveNotification).mockRejectedValue(new GreenApiError(401))
+
+    await pollNotifications(credentials, handlers, new AbortController().signal)
+
+    expect(handlers.onUnauthorized).toHaveBeenCalledTimes(1)
+    expect(receiveNotification).toHaveBeenCalledTimes(1)
   })
 })

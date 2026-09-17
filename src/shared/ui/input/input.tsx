@@ -1,10 +1,6 @@
 import clsx from 'clsx'
-import type { ComponentProps } from 'react'
+import type { InputProps } from './types'
 import styles from './input.module.css'
-
-interface InputProps extends ComponentProps<'input'> {
-  label?: string
-}
 
 export function Input({ label, className, ...props }: InputProps) {
   const input = <input className={clsx(styles.input, className)} {...props} />

@@ -6,3 +6,12 @@ export interface Chat {
 }
 
 export type ChatDraft = Omit<Chat, 'createdAt'>
+
+export interface ChatState {
+  chats: Record<string, Chat>
+  activeChatId: string | null
+  /** Создаёт чат или обновляет имя существующего, сохраняя дату создания */
+  upsertChat: (chat: ChatDraft) => void
+  selectChat: (chatId: string | null) => void
+  reset: () => void
+}

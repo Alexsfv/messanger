@@ -2,16 +2,8 @@ import clsx from 'clsx'
 import { formatShortDate } from '@/shared/lib'
 import { Avatar } from '@/shared/ui'
 import { getChatTitle } from '../lib/get-chat-title'
-import type { Chat } from '../model/types'
+import type { ChatListItemProps } from './types'
 import styles from './chat-list-item.module.css'
-
-interface ChatListItemProps {
-  chat: Chat
-  preview?: string
-  time?: number
-  isActive: boolean
-  onSelect: (chatId: string) => void
-}
 
 export function ChatListItem({ chat, preview, time, isActive, onSelect }: ChatListItemProps) {
   const title = getChatTitle(chat)

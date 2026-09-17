@@ -1,3 +1,5 @@
+export const APP_NAME = 'WhatsApp Chat'
+
 export const APP_LOCALE = 'ru-RU'
 
 export const STORAGE_KEYS = {

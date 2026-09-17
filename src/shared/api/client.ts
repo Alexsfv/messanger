@@ -1,21 +1,7 @@
 import { NETWORK_ERROR_MESSAGE } from '@/shared/config'
-import {
-  API_HOST,
-  API_HOST_PREFIX_LENGTH,
-  DEFAULT_HTTP_ERROR_MESSAGE,
-  HTTP_ERROR_MESSAGES,
-} from './config'
-import type { GreenApiCredentials } from './types'
-
-interface RequestOptions {
-  method?: 'GET' | 'POST' | 'DELETE'
-  pathParams?: (string | number)[]
-  query?: Record<string, string>
-  body?: unknown
-  signal?: AbortSignal
-}
-
-const JSON_HEADERS = { 'Content-Type': 'application/json' }
+import { API_HOST, API_HOST_PREFIX_LENGTH, JSON_HEADERS } from './config'
+import { GreenApiError } from './errors'
+import type { GreenApiCredentials, RequestOptions } from './types'
 
 export const getApiUrl = (idInstance: string) =>
   `https://${idInstance.slice(0, API_HOST_PREFIX_LENGTH)}.${API_HOST}`
@@ -38,11 +24,7 @@ export async function request<T>(
     throw signal?.aborted ? cause : new Error(NETWORK_ERROR_MESSAGE, { cause })
   })
 
-  if (!response.ok) {
-    throw new Error(
-      HTTP_ERROR_MESSAGES[response.status] ?? `${DEFAULT_HTTP_ERROR_MESSAGE} (${response.status})`,
-    )
-  }
+  if (!response.ok) throw new GreenApiError(response.status)
 
   // Пустое тело — штатный ответ, например ReceiveNotification без новых уведомлений
   const text = await response.text()

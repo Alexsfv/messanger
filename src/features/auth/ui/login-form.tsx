@@ -1,14 +1,14 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
-import type { GreenApiCredentials } from '@/shared/api'
+import { useSessionStore } from '@/entities/session'
 import { Button, ErrorMessage, Input } from '@/shared/ui'
+import { LOGIN_INITIAL_VALUES } from '../config'
 import { useLogin } from '../model/use-login'
 import styles from './login-form.module.css'
 
-const INITIAL_VALUES: GreenApiCredentials = { idInstance: '', apiTokenInstance: '' }
-
 export function LoginForm() {
-  const [values, setValues] = useState(INITIAL_VALUES)
+  const [values, setValues] = useState(LOGIN_INITIAL_VALUES)
   const { mutate: login, isPending, error } = useLogin()
+  const notice = useSessionStore((state) => state.notice)
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) =>
     setValues((prev) => ({ ...prev, [target.name]: target.value.trim() }))
@@ -41,7 +41,7 @@ export function LoginForm() {
         autoComplete="current-password"
         required
       />
-      <ErrorMessage error={error} />
+      <ErrorMessage error={error ?? notice} />
       <Button type="submit" disabled={isPending}>
         {isPending ? 'Проверяем…' : 'Войти'}
       </Button>

@@ -1,15 +1,9 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { STORAGE_KEYS } from '@/shared/config'
-import type { Message } from './types'
+import type { Message, MessageState } from './types'
 
-interface MessageState {
-  messagesByChatId: Record<string, Message[]>
-  /** Идемпотентно: повторно полученное уведомление не создаёт дубль */
-  addMessage: (message: Message) => void
-  reset: () => void
-}
-
+/** Общая ссылка для чатов без сообщений: новый [] в селекторе вызывал бы бесконечный ререндер */
 const EMPTY_MESSAGES: Message[] = []
 
 export const useMessageStore = create<MessageState>()(

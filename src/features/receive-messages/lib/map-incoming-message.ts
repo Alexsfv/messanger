@@ -1,12 +1,6 @@
-import type { ChatDraft } from '@/entities/chat'
-import type { Message } from '@/entities/message'
 import { isIncomingMessageWebhook, type MessageData, type WebhookBody } from '@/shared/api'
 import { MS_IN_SECOND } from '@/shared/config'
-
-interface IncomingMessage {
-  chat: ChatDraft
-  message: Message
-}
+import type { IncomingMessage } from '../model/types'
 
 const getMessageText = ({ textMessageData, extendedTextMessageData }: MessageData) =>
   textMessageData?.textMessage ?? extendedTextMessageData?.text

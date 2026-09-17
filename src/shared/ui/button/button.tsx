@@ -1,10 +1,6 @@
 import clsx from 'clsx'
-import type { ComponentProps } from 'react'
+import type { ButtonProps } from './types'
 import styles from './button.module.css'
-
-interface ButtonProps extends ComponentProps<'button'> {
-  variant?: 'primary' | 'icon'
-}
 
 export function Button({ variant = 'primary', type = 'button', className, ...props }: ButtonProps) {
   return (

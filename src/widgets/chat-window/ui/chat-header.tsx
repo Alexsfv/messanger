@@ -1,12 +1,9 @@
-import { getChatTitle, useChatStore, type Chat } from '@/entities/chat'
+import { getChatTitle, useChatStore } from '@/entities/chat'
 import { getPhoneFromChatId } from '@/shared/api'
 import { formatPhone } from '@/shared/lib'
 import { ArrowLeftIcon, Avatar, Button } from '@/shared/ui'
+import type { ChatHeaderProps } from './types'
 import styles from './chat-header.module.css'
-
-interface ChatHeaderProps {
-  chat: Chat
-}
 
 export function ChatHeader({ chat }: ChatHeaderProps) {
   const selectChat = useChatStore((state) => state.selectChat)

@@ -1,5 +1,6 @@
 export { getPhoneFromChatId, toPersonalChatId } from './chat-id'
 export { MESSAGE_MAX_LENGTH } from './config'
+export { GreenApiError, isUnauthorizedError } from './errors'
 export {
   checkWhatsapp,
   deleteNotification,

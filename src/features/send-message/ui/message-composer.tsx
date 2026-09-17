@@ -2,11 +2,8 @@ import { useState, type FormEvent, type KeyboardEvent } from 'react'
 import { MESSAGE_MAX_LENGTH } from '@/shared/api'
 import { Button, ErrorMessage, SendIcon } from '@/shared/ui'
 import { useSendMessage } from '../model/use-send-message'
+import type { MessageComposerProps } from './types'
 import styles from './message-composer.module.css'
-
-interface MessageComposerProps {
-  chatId: string
-}
 
 export function MessageComposer({ chatId }: MessageComposerProps) {
   const [text, setText] = useState('')

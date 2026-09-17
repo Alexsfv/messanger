@@ -3,6 +3,14 @@ export interface GreenApiCredentials {
   apiTokenInstance: string
 }
 
+export interface RequestOptions {
+  method?: 'GET' | 'POST' | 'DELETE'
+  pathParams?: (string | number)[]
+  query?: Record<string, string>
+  body?: unknown
+  signal?: AbortSignal
+}
+
 export type InstanceState =
   | 'notAuthorized'
   | 'authorized'

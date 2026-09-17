@@ -1,20 +1,15 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { GreenApiCredentials } from '@/shared/api'
 import { STORAGE_KEYS } from '@/shared/config'
-
-interface SessionState {
-  credentials: GreenApiCredentials | null
-  signIn: (credentials: GreenApiCredentials) => void
-  signOut: () => void
-}
+import type { SessionState } from './types'
 
 export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       credentials: null,
-      signIn: (credentials) => set({ credentials }),
-      signOut: () => set({ credentials: null }),
+      notice: null,
+      signIn: (credentials) => set({ credentials, notice: null }),
+      signOut: (notice) => set({ credentials: null, notice: notice ?? null }),
     }),
     { name: STORAGE_KEYS.session },
   ),

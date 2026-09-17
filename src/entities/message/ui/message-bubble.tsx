@@ -1,11 +1,7 @@
 import clsx from 'clsx'
 import { formatTime } from '@/shared/lib'
-import type { Message } from '../model/types'
+import type { MessageBubbleProps } from './types'
 import styles from './message-bubble.module.css'
-
-interface MessageBubbleProps {
-  message: Message
-}
 
 export function MessageBubble({ message }: MessageBubbleProps) {
   return (
